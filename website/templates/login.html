@@ -1,13 +1,18 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title %}{% endblock %}</title>
-</head>
-<body>
-    <h1>Home</h1>
-</body>
-</html>
+{% extends "base.html" %} {% block title %}
+Login
+{% endblock %}
+{% block content %}
+<form method="POST">
+    <h3 align="center">Login</h3>
+    <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="text" id="email" class="form-control" placeholder="Enter Email">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password">
+        <br />
+        <div align="center">
+            <button class="btn btn-primary" type="submit">Login</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
