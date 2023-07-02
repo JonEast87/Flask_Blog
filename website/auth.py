@@ -4,16 +4,16 @@ from .models import User
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
-auth = Blueprint("auth", __name__)
+auth = Blueprint('auth', __name__)
 
 
-@auth.route("/signup", methods=['GET', 'POST'])
+@auth.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        email = request.form.get("email")
-        username = request.form.get("username")
-        password1 = request.form.get("password1")
-        password2 = request.form.get("password2")
+        email = request.form.get('email')
+        username = request.form.get('username')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
 
         # Check first if email exists before making a new one
         email_exists = User.query.filter_by(email=email).first()
@@ -30,26 +30,29 @@ def signup():
             flash('Username is too short.', category='error')
         elif len(password1) < 6:
             flash('Password is too short.', category='error')
+        elif len(email) < 4:
+            flash('Email is invalid.', category='error')
         else:
-            new_user = User(email=email, username=username, password1=generate_password_hash(password1, method='sha256'))
+            new_user = User(email=email, username=username, password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
             flash('User created!')
             return redirect(url_for('views.home'))
 
-    return render_template("signup.html")
+    return render_template('signup.html')
 
 
-@auth.route("/login", methods=['GET', 'POST'])
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.moethod == 'POST':
-        email = request.form.get("email")
-        password = request.form.get("password")
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
         user = User.query.filter_by(email=email).first()
         if user:
             if check_password_hash(user.password, password):
-                flash("Logged in!", category='success')
+                flash('Logged in!', category='success')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
             else:
@@ -57,11 +60,11 @@ def login():
         else:
             flash('Email does not exist', category='error')
 
-    return render_template("login.html")
+    return render_template('login.html')
 
 
 @login_required
-@auth.route("logout")
+@auth.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for("views.home"))
+    return redirect(url_for('views.home'))
