@@ -23,6 +23,7 @@ class Post(db.Model):
     # Ties all comments made on a particular Post if any exist
     comments = db.Relationship('Comment', backref='post', passive_deletes=True)
 
+
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(200), nullable=False)
