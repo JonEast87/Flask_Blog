@@ -70,20 +70,18 @@
                     </form>
                 </div>
 
-                <div class="card-footer text-muted">
-                    {{ post.date_created }}
-                </div>
-            <br />
+                <div class="card-footer text-muted">{{ post.date_created }}</div>
+            <br /> <br />
+            </div>
         {% endfor %}
-            </div>
+    </div>
 
-            {% block footer %}
-            <div align="center">
-                <a href="/create-post">
-                    <button type="button" class="btn btn-primary btn-lg">
-                        Create a Post
-                    </button>
-                </a>
-            </div>
-        </div>
-{% endblock %} {% endblock %}
+    {% block footer %}
+    <div align="center">
+        <a href="/create-post">
+            <button type="button" class="btn btn-primary btn-lg">
+                Create a Post
+            </button>
+        </a>
+    </div>
+    {% endblock %} {% endblock %}
