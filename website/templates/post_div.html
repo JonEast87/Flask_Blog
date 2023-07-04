@@ -16,9 +16,7 @@
                     <a href="/posts/{{post.user.username}}">{{ post.user.username }}</a>
                     {% if user.id == post.author %}
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-
-                        </button>
+                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"></button>
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="/delete-post/{{ post.id }}" class="dropdown-item">Delete</a>
@@ -28,9 +26,9 @@
                 {% endif %}
                 </div>
                 <div class="card-body">
-                    <div class="card-text">
-                        {{ post.text }}
-                        <br />
+                    <div class="card-text">{{ post.text }}</div>
+                    <br />
+                    <div class="collapse" id="comments-{{post.id}}">
                         <div class="card">
                             <div class="card-body" id="comments-expanded-{{post.id}}">
                                 {% for comment in post.comments %}
@@ -47,17 +45,28 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <br />
-                        <form class="input-group mb-3" method="POST" action="/create-comment/{{post.id}}">
-                            <input type="text" id="text" name="text" class="form-control" placeholder="Comment something!" />
-                            <button type="submit" class="btn btn-primary">Comment</button>
-                        </form>
                     </div>
+                    <p class="card-text">
+                        {% if post.comments|length > 0 %}
+                            <a data-bs-toggle="collapse" href="comments-{{post.id}}" role="button">
+                                <small>View {{ post.comments|length }} Comments</small>
+                            </a>
+                        {% else %}
+                            <small class="text-muted">No Comments</small>
+                        {% endif %}
+                    </p>
+                    <br />
+                    <form class="input-group mb-3" method="POST" action="/create-comment/{{post.id}}">
+                        <input type="text" id="text" name="text" class="form-control" placeholder="Comment something!" />
+                        <button type="submit" class="btn btn-primary">Comment</button>
+                    </form>
                 </div>
+
                 <div class="card-footer text-muted">
                     {{ post.date_created }}
                 </div>
-            <br /> {% endfor %}
+            <br />
+        {% endfor %}
             </div>
 
             {% block footer %}
@@ -69,4 +78,4 @@
                 </a>
             </div>
         </div>
-    {% endblock %} {% endblock %}
+{% endblock %} {% endblock %}
