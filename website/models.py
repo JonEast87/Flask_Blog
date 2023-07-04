@@ -21,7 +21,7 @@ class Post(db.Model):
     # Capture the currentUsers id to tie it to their created post
     author = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     # Ties all comments made on a particular Post if any exist
-    comments = db.Relationship('Comment', backref='post', passive_deleted=True)
+    comments = db.Relationship('Comment', backref='post', passive_deletes=True)
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
