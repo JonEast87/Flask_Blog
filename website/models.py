@@ -12,6 +12,8 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='user', passive_deletes=True)
     # Ties all comments made by the User if any exist
     comments = db.Relationship('Comment', backref='user', passive_deletes=True)
+    # Ties all likes made by the User if any exist
+    likes = db.Relationship('Like', backref='user', passive_deletes=True)
 
 
 class Post(db.Model):
@@ -22,6 +24,8 @@ class Post(db.Model):
     author = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     # Ties all comments made on a particular Post if any exist
     comments = db.Relationship('Comment', backref='post', passive_deletes=True)
+    # Ties all likes made on a particular Post if any exist
+    likes = db.Relationship('Like', backref='post', passive_deletes=True)
 
 
 class Comment(db.Model):
@@ -30,4 +34,12 @@ class Comment(db.Model):
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
     author = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
     # Ties individual comment to it's Post object
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id', ondelete="CASCADE"), nullable=False)
+
+
+class Like(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date_created = db.Column(db.DateTime(timezone=True), default=func.now())
+    author = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
+    # Ties individual like to it's Post object
     post_id = db.Column(db.Integer, db.ForeignKey('post.id', ondelete="CASCADE"), nullable=False)
